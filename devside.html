@@ -3,15 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waddle Engine - Dev Side</title>
+    <title>Waddle Engine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/Waddle_Engine/assets/style-NZPhJPgP.js"></script>
-  <script type="module" crossorigin src="/Waddle_Engine/assets/index-wINcKeif.js"></script>
-  <script type="module" crossorigin src="/Waddle_Engine/assets/devside-BdCyMDu-.js"></script>
-  <link rel="stylesheet" crossorigin href="/Waddle_Engine/assets/style-BpJEedNz.css">
+  <script type="module" crossorigin src="/Waddle_Engine/assets/devside-DfYZU2pa.js"></script>
+  <link rel="modulepreload" crossorigin href="/Waddle_Engine/assets/index-wINcKeif.js">
+  <link rel="stylesheet" crossorigin href="/Waddle_Engine/assets/devside-Bf0h12TM.css">
 </head>
 <body>
+    <div class="app-container">
+        <!-- Development Side (hidden in production) -->
+        <div class="editor-side dev-only">
+            <div class="toolbar">
+                <div class="logo">
+                    <img src="/Waddle_Engine/assets/favicon-B7Iv4dle.ico" alt="Waddle" style="width: 32px; height: 32px; border-radius: 6px;">
+                    Waddle Engine
+                </div>
+                <div class="controls">
+                    <button class="btn-save tooltip" data-tooltip="Save Project (Ctrl+S)" onclick="saveProject(); this.blur();">💾 Save</button>
+                    <button class="btn-load tooltip" data-tooltip="Load Project (Ctrl+O)" onclick="loadProject(); this.blur();">📁 Load</button>
+                </div>
+            </div>
+            
+            <div id="blocklyDiv" class="dev-only"></div>
+
+            <div id="asset-panel" class="asset-panel dev-only">
+                <div class="tabs">
+                    <button class="tab active" onclick="openTab(event, 'tab-costumes')">👕 Costumes</button>
+                    <button class="tab" onclick="openTab(event, 'tab-sounds')">🔊 Sounds</button>
+                </div>
+
+                <div id="tab-costumes" class="tab-content active">
+                    <div id="costumeList" class="asset-grid"></div>
+                    <div class="upload-controls">
+                        <input type="file" id="costumeUpload" accept="image/*" style="display:none">
+                        <button class="btn-add" onclick="document.getElementById('costumeUpload').click()">+ Add Costume</button>
+                    </div>
+                </div>
+
+                <div id="tab-sounds" class="tab-content">
+                    <div id="soundList" class="asset-list"></div>
+                    <div class="upload-controls">
+                        <input type="file" id="soundUpload" accept="audio/*" style="display:none">
+                        <button class="btn-add" onclick="document.getElementById('soundUpload').click()">🎵 Upload Sound</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Side (always visible) -->
+        <div class="game-side">
+            <div class="game-toolbar">
+                <div class="toolbar-left">
+                    <button id="playBtn" class="btn-play" onclick="toggleGame()">▶️ Go</button>
+                    <button id="stopBtn" class="btn-stop" onclick="stopGame()">⏹️ Stop</button>
+                    <button id="loadBtn" class="btn-load" onclick="loadGameFile()">📁 Load</button>
+                </div>
+                <div class="toolbar-right">
+                    <button onclick="resetView()">🔄 Reset View</button>
+                </div>
+            </div>
+            <div id="gameContainer" class="game-container"></div>
+            
+            <!-- Development-only panels -->
+            <div id="inspector-panel" class="inspector-panel dev-only">
+                <h3>Inspector</h3>
+                <div id="inspector-content">
+                    <p>Select a sprite to view properties</p>
+                </div>
+            </div>
+
+            <div id="sprite-panel" class="sprite-panel dev-only">
+                <h3>Sprites</h3>
+                <div id="spriteList" class="sprite-list"></div>
+                <button class="btn-add-sprite" onclick="addNewSprite()">+ Add Sprite</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Production overlay elements -->
+    <div id="loadingOverlay" class="loading-overlay prod-only" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Loading game...</p>
+    </div>
+
+    <div id="gameControls" class="production-controls prod-only" style="display: none;">
+        <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        <button onclick="resetGame()">🔄 Reset</button>
+    </div>
+
 </body>
 </html>
